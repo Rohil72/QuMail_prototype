@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MailBox Pro - Inbox</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="inbox.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-envelope"></i>
+                    <h2>MailBox Pro</h2>
+                </div>
+                
+                <button class="compose-btn" onclick="openCompose()">
+                    <i class="fas fa-pen"></i>
+                    Compose
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active">
+                            <i class="fas fa-inbox"></i>
+                            <span>Inbox</span>
+                            <span class="nav-badge">12</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="starred.html" class="nav-link">
+                            <i class="fas fa-star"></i>
+                            <span>Starred</span>
+                            <span class="nav-badge">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="sent.html" class="nav-link">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Sent</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="drafts.html" class="nav-link">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Drafts</span>
+                            <span class="nav-badge">2</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="trash.html" class="nav-link">
+                            <i class="fas fa-trash"></i>
+                            <span>Trash</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="settings.html" class="nav-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name">John Doe</div>
+                        <div class="user-email">john@example.com</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="inbox-header">
+                <div class="header-left">
+                    <h1>Inbox</h1>
+                    <p>12 new messages</p>
+                </div>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" placeholder="Search emails...">
+                    </div>
+                    <button class="action-btn" onclick="refreshEmails()" title="Refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="action-btn" onclick="openSettings()" title="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <div class="select-all">
+                        <input type="checkbox" id="selectAll">
+                        <label for="selectAll">Select All</label>
+                    </div>
+                    <div class="bulk-actions">
+                        <button class="bulk-btn" onclick="archiveSelected()">
+                            <i class="fas fa-archive"></i> Archive
+                        </button>
+                        <button class="bulk-btn" onclick="deleteSelected()">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <button class="bulk-btn" onclick="starSelected()">
+                            <i class="fas fa-star"></i> Star
+                        </button>
+                    </div>
+                </div>
+                <div class="email-count">
+                    Showing <span id="emailCount">1-20 of 147</span> emails
+                </div>
+            </div>
+
+            <!-- Email List Container -->
+            <div class="email-list-container">
+                <div id="emailList" class="email-list">
+                    <!-- Sample Email Items -->
+                    <div class="email-item unread" data-email-id="1">
+                        <input type="checkbox" class="email-checkbox">
+                        <i class="fas fa-star email-star"></i>
+                        <div class="email-avatar color-1">JS</div>
+                        <div class="email-content">
+                            <div class="email-header-row">
+                                <span class="email-sender">John Smith</span>
+                                <span class="email-time">2 min ago</span>
+                            </div>
+                            <div class="email-subject">Quarterly Report Review</div>
+                            <div class="email-preview">Hi team, I've completed the quarterly report and would like to schedule a review meeting...</div>
+                            <div class="email-labels">
+                                <span class="email-label label-work">Work</span>
+                                <span class="email-label label-important">Important</span>
+                            </div>
+                        </div>
+                        <div class="email-actions">
+                            <button class="email-action-btn archive" onclick="archiveEmail(1)" title="Archive">
+                                <i class="fas fa-archive"></i>
+                            </button>
+                            <button class="email-action-btn delete" onclick="deleteEmail(1)" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="email-item unread" data-email-id="2">
+                        <input type="checkbox" class="email-checkbox">
+                        <i class="fas fa-star email-star starred"></i>
+                        <div class="email-avatar color-2">MJ</div>
+                        <div class="email-content">
+                            <div class="email-header-row">
+                                <span class="email-sender">Maria Johnson</span>
+                                <span class="email-time">15 min ago</span>
+                            </div>
+                            <div class="email-subject">Project Updates & Next Steps</div>
+                            <div class="email-preview">Good morning! I wanted to update you on the current project status and discuss the next steps...</div>
+                            <div class="email-labels">
+                                <span class="email-label label-work">Work</span>
+                            </div>
+                        </div>
+                        <div class="email-actions">
+                            <button class="email-action-btn archive" onclick="archiveEmail(2)" title="Archive">
+                                <i class="fas fa-archive"></i>
+                            </button>
+                            <button class="email-action-btn delete" onclick="deleteEmail(2)" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="email-item" data-email-id="3">
+                        <input type="checkbox" class="email-checkbox">
+                        <i class="fas fa-star email-star"></i>
+                        <div class="email-avatar color-3">DB</div>
+                        <div class="email-content">
+                            <div class="email-header-row">
+                                <span class="email-sender">David Brown</span>
+                                <span class="email-time">1 hour ago</span>
+                            </div>
+                            <div class="email-subject">Weekend Plans</div>
+                            <div class="email-preview">Hey! Are we still on for hiking this weekend? The weather looks perfect...</div>
+                            <div class="email-labels">
+                                <span class="email-label label-personal">Personal</span>
+                            </div>
+                        </div>
+                        <div class="email-actions">
+                            <button class="email-action-btn archive" onclick="archiveEmail(3)" title="Archive">
+                                <i class="fas fa-archive"></i>
+                            </button>
+                            <button class="email-action-btn delete" onclick="deleteEmail(3)" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="email-item unread" data-email-id="4">
+                        <input type="checkbox" class="email-checkbox">
+                        <i class="fas fa-star email-star"></i>
+                        <div class="email-avatar color-4">SA</div>
+                        <div class="email-content">
+                            <div class="email-header-row">
+                                <span class="email-sender">Sarah Anderson</span>
+                                <span class="email-time">2 hours ago</span>
+                            </div>
+                            <div class="email-subject">Meeting Reschedule Request</div>
+                            <div class="email-preview">I need to reschedule our meeting tomorrow due to an urgent client call...</div>
+                            <div class="email-labels">
+                                <span class="email-label label-work">Work</span>
+                            </div>
+                        </div>
+                        <div class="email-actions">
+                            <button class="email-action-btn archive" onclick="archiveEmail(4)" title="Archive">
+                                <i class="fas fa-archive"></i>
+                            </button>
+                            <button class="email-action-btn delete" onclick="deleteEmail(4)" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="email-item" data-email-id="5">
+                        <input type="checkbox" class="email-checkbox">
+                        <i class="fas fa-star email-star starred"></i>
+                        <div class="email-avatar color-5">TW</div>
+                        <div class="email-content">
+                            <div class="email-header-row">
+                                <span class="email-sender">Tom Wilson</span>
+                                <span class="email-time">3 hours ago</span>
+                            </div>
+                            <div class="email-subject">Code Review Completed</div>
+                            <div class="email-preview">I've completed the code review for the latest feature implementation. Overall looks great...</div>
+                            <div class="email-labels">
+                                <span class="email-label label-work">Work</span>
+                            </div>
+                        </div>
+                        <div class="email-actions">
+                            <button class="email-action-btn archive" onclick="archiveEmail(5)" title="Archive">
+                                <i class="fas fa-archive"></i>
+                            </button>
+                            <button class="email-action-btn delete" onclick="deleteEmail(5)" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content success-modal">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 id="successTitle">Success!</h3>
+            <p id="successMessage">Action completed successfully.</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="render.js"></script>
+</body>
+</html>
